@@ -13,7 +13,7 @@ import { Input } from "@nextui-org/input";
 const DisplayTasks = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const limit = 12;
+  const limit = 6;
 
   const {
     data: tasks,
@@ -31,7 +31,6 @@ const DisplayTasks = () => {
 
   const [filteredTasks, setFilteredTasks] = useState<TaskType[]>([]);
 
-  // Effect to handle filtering tasks based on searchQuery
   useEffect(() => {
     if (tasks && tasks.data) {
       if (searchQuery.trim() === "") {
