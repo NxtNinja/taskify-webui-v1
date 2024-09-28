@@ -1,9 +1,8 @@
 import { fetcher } from "@/helper/apiHelper";
 import { User } from "@directus/types";
 import { useQuery } from "@tanstack/react-query";
-import { Image } from "@nextui-org/image";
 import LogoutButton from "./Buttons/LogoutButton";
-import { Avatar } from "@nextui-org/avatar";
+import { Image } from "@nextui-org/image";
 
 const UserProfile = () => {
   const api = process.env.NEXT_PUBLIC_API;
@@ -17,18 +16,23 @@ const UserProfile = () => {
   } = useQuery({
     queryKey: ["currentUser"],
     queryFn: () => fetcher<{ data: User }>("users/me"),
+    refetchOnWindowFocus: false,
+    staleTime: 5 * 60 * 1000,
   });
 
   return (
     <>
       <div className="grid place-items-center gap-2">
-        <Avatar
-          isBordered
-          className="transition-transform cursor-pointer w-48 h-48"
-          color="primary"
-          size="sm"
-          src={`${api}/assets/${user?.data.avatar}`}
-          showFallback
+        <Image
+          className="transition-transform cursor-pointer w-48 h-48 object-cover"
+          src={
+            user?.data.avatar
+              ? `${api}/assets/${user.data.avatar}`
+              : `https://avatar.iran.liara.run/public/boy?username=${user?.data.first_name}`
+          } // Set a default avatar path
+          alt={`${user?.data.first_name}'s avatar`}
+          width={192}
+          height={192}
         />
         <p className="font-bold text-3xl">{user?.data.first_name}</p>
         <p className="text-xl">{user?.data.email}</p>

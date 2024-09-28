@@ -7,6 +7,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/modal";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -18,12 +19,15 @@ interface ModalProps {
 
 const DeleteModal = ({ id, isOpen, onOpenChange }: ModalProps) => {
   const [load, setLoad] = useState(false);
+  const queryClient = useQueryClient();
+
   const { push } = useRouter();
   const deleteTask = async () => {
     setLoad(true);
     await deleter(`items/task/${id}`);
+    queryClient.invalidateQueries({ queryKey: ["tasks"] });
     setLoad(false);
-    push("/");
+    onOpenChange();
   };
   return (
     <>

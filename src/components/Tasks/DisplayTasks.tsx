@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import PaginationComponent from "./PaginationComponent";
 import TaskCard from "./TaskCard";
 import { fetcher } from "@/helper/apiHelper";
@@ -9,6 +9,7 @@ import { Skeleton } from "@nextui-org/skeleton";
 import TaskCardSkeleton from "../Skeleton/TaskCardSkeleton";
 import AddTaskButton from "../Buttons/AddTaskButton";
 import { Input } from "@nextui-org/input";
+import DisplayTasksSkeleton from "../Skeleton/DisplayTasksSkeleton";
 
 const DisplayTasks = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,6 +28,7 @@ const DisplayTasks = () => {
       fetcher<{ meta: { total_count: number }; data: TaskType[] }>(
         `items/task?limit=${limit}&page=${currentPage}&meta=total_count&sort=-date_created`
       ),
+    staleTime: 5 * 60 * 1000,
   });
 
   const [filteredTasks, setFilteredTasks] = useState<TaskType[]>([]);
@@ -44,23 +46,15 @@ const DisplayTasks = () => {
     }
   }, [searchQuery, tasks]);
 
+  useEffect(() => {
+    // If there are no tasks on the current page and we're not on the first page, go back to the first page
+    if (tasks?.data.length === 0 && currentPage > 1) {
+      setCurrentPage(1);
+    }
+  }, [tasks, currentPage]);
+
   if (isLoading || isFetching) {
-    return (
-      <div className="space-y-5">
-        <div className="flex justify-between items-center w-full">
-          <Skeleton className="h-8 w-40 rounded-sm" />
-          <Skeleton className="h-10 w-32 rounded-sm" />
-        </div>
-        <div className="grid place-items-center gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-          <TaskCardSkeleton />
-          <TaskCardSkeleton />
-          <TaskCardSkeleton />
-          <TaskCardSkeleton />
-          <TaskCardSkeleton />
-          <TaskCardSkeleton />
-        </div>
-      </div>
-    );
+    return <DisplayTasksSkeleton />;
   }
 
   if (isFetched && isSuccess) {
@@ -84,12 +78,12 @@ const DisplayTasks = () => {
         </div>
         {filteredTasks.length !== 0 ? (
           <>
-            <div className="grid place-items-center gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid place-items-center gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
               {filteredTasks.map((item) => {
                 return <TaskCard key={item.id} task={item} />;
               })}
             </div>
-            <div className="">
+            <div className="flex justify-center mt-4">
               <PaginationComponent
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}

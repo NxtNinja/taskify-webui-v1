@@ -21,26 +21,6 @@ export default function PaginationComponent({
         page={currentPage}
         onChange={setCurrentPage}
       />
-      <div className="flex gap-2">
-        <Button
-          size="sm"
-          variant="flat"
-          color="primary"
-          onPress={() => setCurrentPage((prev) => (prev > 1 ? prev - 1 : prev))}
-        >
-          Previous
-        </Button>
-        <Button
-          size="sm"
-          variant="flat"
-          color="primary"
-          onPress={() =>
-            setCurrentPage((prev) => (prev < totalPages ? prev + 1 : prev))
-          }
-        >
-          Next
-        </Button>
-      </div>
     </div>
   );
 }

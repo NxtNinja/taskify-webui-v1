@@ -3,12 +3,13 @@ import { Skeleton } from "@nextui-org/skeleton";
 
 const TaskCardSkeleton = () => {
   return (
-    <Card className="w-full cursor-pointer hover:scale-105 transition-all h-full">
+    <Card className="w-full h-full">
       <CardHeader className="flex items-start flex-col">
         {/* Skeleton for status */}
         <Skeleton className="h-5 w-20 mb-2" />
         <div className="space-y-5">
           {/* Skeleton for heading */}
+          <Skeleton className="h-6 w-3/5 mb-4" />
           <Skeleton className="h-6 w-3/5 mb-4" />
           <div className="space-y-2">
             {/* Skeleton for date created */}

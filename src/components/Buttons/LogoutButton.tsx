@@ -1,4 +1,4 @@
-import { logout } from "@/helper/authApi";
+import { useLogout } from "@/hooks/useAuth";
 import { Button } from "@nextui-org/button";
 import { LogOutIcon } from "lucide-react";
 import { useRouter } from "next/router";
@@ -6,18 +6,15 @@ import { useState } from "react";
 
 const LogoutButton = () => {
   const router = useRouter();
-  const [load, setLoad] = useState(false);
+  const { mutate: logout, isPending } = useLogout();
 
   const logout_user = async () => {
-    setLoad(true);
-    await logout();
-    router.push("/auth/signin");
-    setLoad(false);
+    logout();
   };
   return (
     <>
       <Button
-        isLoading={load}
+        isLoading={isPending}
         color="danger"
         startContent={<LogOutIcon />}
         className="w-[200px]"

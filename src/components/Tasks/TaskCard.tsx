@@ -2,13 +2,16 @@ import { TaskType } from "@/utils/types";
 import { Card, CardFooter, CardHeader } from "@nextui-org/card";
 import Link from "next/link";
 import { Chip } from "@nextui-org/chip";
+import { Delete, Edit } from "lucide-react";
+import EditTaskButton from "../Buttons/EditTaskButton";
+import DeleteTaskButton from "../Buttons/DeleteTaskButton";
 
 const TaskCard = ({ task }: { task: TaskType }) => {
   const options: Intl.DateTimeFormatOptions = {
     day: "numeric",
     month: "long",
     year: "numeric",
-    timeZone: "UTC", // Ensure it's formatted in UTC
+    timeZone: "UTC",
   };
 
   const date_created = new Date(task.date_created);
@@ -24,11 +27,7 @@ const TaskCard = ({ task }: { task: TaskType }) => {
 
   return (
     <>
-      <Card
-        as={Link}
-        href={`/task/${task.id}`}
-        className="w-full cursor-pointer hover:scale-105 transition-all h-full"
-      >
+      <Card className="w-full h-full">
         <CardHeader className="flex items-start flex-col">
           {task.status !== "todo" ? (
             task.status !== "completed" ? (
@@ -62,10 +61,9 @@ const TaskCard = ({ task }: { task: TaskType }) => {
           </div>
         </CardHeader>
         {/* <CardBody>{task.description}</CardBody> */}
-        <CardFooter>
-          {task.sub_task.length !== 0
-            ? `${task.sub_task.length} sub tasks`
-            : "No sub tasks"}
+        <CardFooter className="space-x-4">
+          <EditTaskButton task={task} />
+          <DeleteTaskButton id={task.id} />
         </CardFooter>
       </Card>
     </>

@@ -13,6 +13,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
     {
       queryKey: ["currentUser"],
       queryFn: () => fetcher<{ data: User }>("users/me"),
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -20,18 +21,16 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
   const shouldHideNav = hideNavRoutes.includes(pathname);
 
-  if (isFetched && isSuccess) {
-    return (
-      <>
-        {!shouldHideNav && (
-          <nav>
-            <Nav info={data} />
-          </nav>
-        )}
-        <main className="container mx-auto max-w-5xl p-5 px-6">{children}</main>
-      </>
-    );
-  }
+  return (
+    <>
+      {isFetched && isSuccess && !shouldHideNav && (
+        <nav>
+          <Nav info={data} />
+        </nav>
+      )}
+      <main className="container mx-auto max-w-5xl p-5 px-6">{children}</main>
+    </>
+  );
 };
 
 export default Layout;
