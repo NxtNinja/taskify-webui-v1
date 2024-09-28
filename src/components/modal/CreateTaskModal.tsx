@@ -26,21 +26,19 @@ interface ModalProps {
 
 export default function CreateTaskModal({ isOpen, onOpenChange }: ModalProps) {
   const [heading, setHeading] = useState("");
-  const [description, setDescription] = useState("");
   const [endDate, setEndDate] = useState(now(getLocalTimeZone()));
   const [load, setLoad] = useState(false);
 
   const queryClient = useQueryClient();
 
   const handleCreateTask = async () => {
-    if (heading === "" && description === "") {
+    if (heading === "") {
       return;
     }
     try {
       setLoad(true);
       await poster("items/task", {
         heading,
-        description,
         end_date: endDate.toString(),
       });
       queryClient.refetchQueries({ queryKey: ["tasks"] });
@@ -76,17 +74,6 @@ export default function CreateTaskModal({ isOpen, onOpenChange }: ModalProps) {
                   color="primary"
                   value={heading}
                   onChange={(e) => setHeading(e.target.value)}
-                />
-
-                <Input
-                  placeholder="Enter description"
-                  type="text"
-                  size="lg"
-                  radius="sm"
-                  variant="faded"
-                  color="primary"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
                 />
 
                 <div className="w-full max-w-xl flex flex-row gap-4">

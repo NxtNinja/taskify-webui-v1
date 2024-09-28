@@ -17,7 +17,6 @@ const UserProfile = () => {
     queryKey: ["currentUser"],
     queryFn: () => fetcher<{ data: User }>("users/me"),
     refetchOnWindowFocus: false,
-    staleTime: 5 * 60 * 1000,
   });
 
   return (

@@ -10,11 +10,11 @@ import TaskCardSkeleton from "../Skeleton/TaskCardSkeleton";
 import AddTaskButton from "../Buttons/AddTaskButton";
 import { Input } from "@nextui-org/input";
 import DisplayTasksSkeleton from "../Skeleton/DisplayTasksSkeleton";
+import { taskQuery } from "@/utils/tkQueries";
 
 const DisplayTasks = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const limit = 6;
 
   const {
     data: tasks,
@@ -22,14 +22,7 @@ const DisplayTasks = () => {
     isLoading,
     isFetching,
     isSuccess,
-  } = useQuery({
-    queryKey: ["tasks", currentPage],
-    queryFn: () =>
-      fetcher<{ meta: { total_count: number }; data: TaskType[] }>(
-        `items/task?limit=${limit}&page=${currentPage}&meta=total_count&sort=-date_created`
-      ),
-    staleTime: 5 * 60 * 1000,
-  });
+  } = taskQuery(6, currentPage);
 
   const [filteredTasks, setFilteredTasks] = useState<TaskType[]>([]);
 
@@ -87,7 +80,7 @@ const DisplayTasks = () => {
               <PaginationComponent
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
-                totalPages={Math.ceil(tasks.meta.total_count / limit)} // Dynamically calculate total pages
+                totalPages={Math.ceil(tasks.meta.total_count / 6)} // Dynamically calculate total pages
               />
             </div>
           </>
