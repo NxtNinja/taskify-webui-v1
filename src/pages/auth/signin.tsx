@@ -5,7 +5,7 @@ const signin = () => {
   return (
     <>
       <Head>
-        <title>Sign in</title>
+        <title>Sign in | Taskify</title>
         <meta
           name="description"
           content="Welcome to my Taskify | Manage your tasks easily"

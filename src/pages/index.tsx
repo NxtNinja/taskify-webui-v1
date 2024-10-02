@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Taskify</title>
+        <title>Taskify | Home</title>
         <meta
           name="description"
           content="Welcome to my Taskify | Manage your tasks easily"

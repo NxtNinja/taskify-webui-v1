@@ -1,11 +1,8 @@
-import { ReactNode } from "react";
-import Nav from "./Nav";
-import { useQuery } from "@tanstack/react-query";
-import { fetcher } from "@/helper/apiHelper";
-import { User } from "@directus/types";
-import { useRouter } from "next/router";
+import { ReactNode, useEffect } from "react";
 import Header from "./Header";
 import { Poppins } from "next/font/google";
+import { useAtom } from "jotai/react";
+import { themeAtom } from "@/utils/themeAtom";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -13,8 +10,15 @@ const poppins = Poppins({
 });
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const router = useRouter();
-  const { pathname } = router;
+  const [theme] = useAtom(themeAtom);
+
+  useEffect(() => {
+    if (theme) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
 
   return (
     <>

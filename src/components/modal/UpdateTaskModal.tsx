@@ -32,18 +32,15 @@ export default function UpdateTaskModal({
   task,
 }: ModalProps) {
   const [heading, setHeading] = useState(task.heading);
-  const [description, setDescription] = useState(task.description);
   const [endDate, setEndDate] = useState(now(getLocalTimeZone()));
   const [load, setLoad] = useState(false);
 
   const queryClient = useQueryClient();
 
-  // Update state when the modal opens and the task prop changes
   useEffect(() => {
     if (isOpen) {
       setHeading(task.heading);
-      setDescription(task.description);
-      setEndDate(now(getLocalTimeZone())); // Set the end date if needed, or use task's end date if available
+      setEndDate(now(getLocalTimeZone()));
     }
   }, [isOpen, task]);
 
@@ -52,12 +49,11 @@ export default function UpdateTaskModal({
       setLoad(true);
       await patcher(`items/task/${task.id}`, {
         heading,
-        description,
         end_date: endDate.toString(),
       });
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       setLoad(false);
-      onOpenChange(); // Close the modal after updating
+      onOpenChange();
     } catch (error) {
       console.log(error);
       setLoad(false);
@@ -88,17 +84,6 @@ export default function UpdateTaskModal({
                 color="primary"
                 value={heading}
                 onChange={(e) => setHeading(e.target.value)}
-              />
-
-              <Input
-                placeholder="Enter description"
-                type="text"
-                size="lg"
-                radius="sm"
-                variant="faded"
-                color="primary"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
               />
 
               <div className="w-full max-w-xl flex flex-row gap-4">

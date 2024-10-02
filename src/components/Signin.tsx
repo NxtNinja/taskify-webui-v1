@@ -79,17 +79,17 @@ const Signin = () => {
               onPress={googleLoginFn}
               className="flex text-sm justify-center items-center gap-3"
               color="primary"
-              variant="flat"
+              variant="light"
               fullWidth
               radius="sm"
             >
-              <p className="text-black">Continue with Google</p>
+              <p className="text-foreground font-bold">Continue with Google</p>
             </Button>
             <div className="">
               <p className="text-2xl font-bold text-background">
                 Signin to continue
               </p>
-              <p className="text-slate-600">
+              <p className="text-background">
                 Enter your email and password to continue
               </p>
             </div>
@@ -134,7 +134,7 @@ const Signin = () => {
                 color="primary"
                 size="lg"
                 radius="sm"
-                className="w-fit text-black"
+                className="w-fit text-background"
                 variant="flat"
               >
                 Sign in
@@ -149,7 +149,7 @@ const Signin = () => {
             </div>
             <div className="flex justify-center items-center gap-2">
               <p className="">Don't have account?</p>
-              <Link href={"/auth/register"} className="text-primary">
+              <Link href={"/auth/register"} className="text-foreground">
                 Register
               </Link>
             </div>

@@ -5,7 +5,7 @@ const Custom404 = () => {
   return (
     <>
       <Head>
-        <title>404</title>
+        <title>404 | Taskify</title>
         <meta
           name="description"
           content="Welcome to my Taskify | Manage your tasks easily"

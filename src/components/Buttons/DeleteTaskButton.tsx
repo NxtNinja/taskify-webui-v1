@@ -1,6 +1,6 @@
 import { useDisclosure } from "@nextui-org/modal";
 import { Trash } from "lucide-react";
-import DeleteModal from "../modal/DeleteModal";
+import DeleteModal from "../Modal/DeleteModal";
 import { Button } from "@nextui-org/button";
 
 const DeleteTaskButton = ({ id }: { id: string }) => {

@@ -4,9 +4,6 @@ const apiUrl = process.env.NEXT_PUBLIC_API as string;
 
 const api = ky.create({
     prefixUrl: apiUrl,
-    headers: {
-        'Content-Type': 'application/json',
-    },
     mode: "cors",
     credentials: "include",
 });

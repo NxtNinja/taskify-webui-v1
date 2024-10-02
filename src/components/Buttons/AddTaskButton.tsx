@@ -1,6 +1,6 @@
 import { Button } from "@nextui-org/button";
 import { Plus } from "lucide-react";
-import CreateTaskModal from "../modal/CreateTaskModal";
+import CreateTaskModal from "../Modal/CreateTaskModal";
 import { useDisclosure } from "@nextui-org/modal";
 
 const AddTaskButton = () => {

@@ -5,7 +5,7 @@ const register = () => {
   return (
     <>
       <Head>
-        <title>Register</title>
+        <title>Register | Taskify</title>
         <meta
           name="description"
           content="Welcome to my Taskify | Manage your tasks easily"

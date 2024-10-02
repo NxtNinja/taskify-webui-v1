@@ -5,17 +5,21 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { registerSchema, Registerschemtype } from "@/schema/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRegister } from "@/hooks/useAuth";
+import { useGoogleLogin, useRegister } from "@/hooks/useAuth";
 import { useRouter } from "next/router";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Register = () => {
   const [isVisible, setIsVisible] = useState(false);
 
+  const queryClient = useQueryClient();
+
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const { mutate: register_user, isPending, error, isSuccess } = useRegister();
+  const { mutate: googleLogin } = useGoogleLogin();
   const router = useRouter();
   const {
     register,
@@ -36,15 +40,21 @@ const Register = () => {
       }
     } catch (error) {}
   };
+
+  const googleLoginFn = async () => {
+    googleLogin();
+    queryClient.removeQueries({ queryKey: ["currentUser"] });
+  };
   return (
     <>
       <div className={`grid place-items-center h-screen`}>
         <Card className="w-[450px] p-4" radius="sm">
           <CardHeader className="flex flex-col justify-start items-start gap-8">
             <Button
+              onPress={googleLoginFn}
               className="flex text-sm justify-center items-center gap-3"
               color="primary"
-              variant="flat"
+              variant="light"
               fullWidth
               radius="sm"
               startContent={
@@ -75,13 +85,13 @@ const Register = () => {
                 </svg>
               }
             >
-              <p className="text-black">Continue with Google</p>
+              <p className="text-foreground font-bold">Continue with Google</p>
             </Button>
             <div className="">
               <p className="text-2xl font-bold text-background">
                 Create account to continue
               </p>
-              <p className="text-slate-600">Enter your details to continue</p>
+              <p className="text-background">Enter your details to continue</p>
             </div>
           </CardHeader>
           <form onSubmit={handleSubmit(userRegister)}>
@@ -132,7 +142,7 @@ const Register = () => {
                 color="primary"
                 size="lg"
                 radius="sm"
-                className="w-fit text-black"
+                className="w-fit text-background"
                 variant="flat"
               >
                 Register
@@ -147,7 +157,7 @@ const Register = () => {
             </div>
             <div className="flex justify-center items-center gap-2">
               <p className="">Already have account?</p>
-              <Link href={"/auth/signin"} className="text-primary">
+              <Link href={"/auth/signin"} className="text-foreground">
                 Signin
               </Link>
             </div>

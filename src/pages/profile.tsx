@@ -5,7 +5,7 @@ const profile = () => {
   return (
     <>
       <Head>
-        <title>Profile</title>
+        <title>Profile | Taskify</title>
         <meta
           name="description"
           content="Welcome to my Taskify | Manage your tasks easily"

@@ -1,5 +1,5 @@
 import { PenLine } from "lucide-react";
-import UpdateTaskModal from "../modal/UpdateTaskModal";
+import UpdateTaskModal from "../Modal/UpdateTaskModal";
 import { useDisclosure } from "@nextui-org/modal";
 import { TaskType } from "@/utils/types";
 import { useQueryClient } from "@tanstack/react-query";

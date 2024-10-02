@@ -6,6 +6,7 @@ const DisplayTasksSkeleton = () => {
     <div className="space-y-5">
       <div className="flex justify-between items-center w-full">
         <Skeleton className="h-10 w-40 rounded-sm" />
+        <Skeleton className="h-10 w-10 rounded-sm" />
         <Skeleton className="h-10 w-40 rounded-sm" />
       </div>
       <div className="flex justify-between items-center w-full">
@@ -16,9 +17,6 @@ const DisplayTasksSkeleton = () => {
         <Skeleton className="h-12 w-full rounded-md" />
       </div>
       <div className="grid place-items-center mt-10 gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-        <TaskCardSkeleton />
-        <TaskCardSkeleton />
-        <TaskCardSkeleton />
         <TaskCardSkeleton />
         <TaskCardSkeleton />
         <TaskCardSkeleton />
