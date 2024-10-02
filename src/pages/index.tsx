@@ -16,7 +16,9 @@ export default function Home() {
           content="Tasks, Taskify, Directus, Next.js, React, TypeScript, Tailwind, Directus, Next.js, React, TypeScript, Tailwind"
         />
       </Head>
-      <DisplayTasks />
+      <div className="px-6 p-5">
+        <DisplayTasks />
+      </div>
     </>
   );
 }

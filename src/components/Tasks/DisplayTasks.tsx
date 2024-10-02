@@ -87,10 +87,10 @@ const DisplayTasks = () => {
         ) : (
           <div className="flex flex-col items-center justify-center h-full py-10">
             <PartyPopper />
-            <h2 className="text-2xl font-semibold text-gray-700 mb-2">
+            <h2 className="text-2xl font-semibold text-background mb-2">
               No tasks to show!
             </h2>
-            <p className="text-lg text-gray-500 mb-4 text-center">
+            <p className="text-lg text-background mb-4 text-center">
               It looks like you haven't added any tasks yet. Start by creating a
               new one.
             </p>

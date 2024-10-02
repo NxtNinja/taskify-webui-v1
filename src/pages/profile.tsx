@@ -16,7 +16,9 @@ const profile = () => {
           content="Tasks, Taskify, Directus, Next.js, React, TypeScript, Tailwind, Directus, Next.js, React, TypeScript, Tailwind"
         />
       </Head>
-      <UserProfile />
+      <div className="px-6 p-5">
+        <UserProfile />
+      </div>
     </>
   );
 };

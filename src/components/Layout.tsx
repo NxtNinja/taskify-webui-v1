@@ -24,7 +24,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
     <>
       <div className={poppins.className}>
         <Header />
-        <main className="container mx-auto max-w-5xl p-5 px-6">{children}</main>
+        <main className="container mx-auto max-w-5xl">{children}</main>
       </div>
     </>
   );
