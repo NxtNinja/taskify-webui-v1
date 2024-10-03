@@ -166,7 +166,7 @@ const TaskCard = ({ task }: { task: TaskType }) => {
         </div>
       </CardHeader>
 
-      <CardFooter className="flex justify-between">
+      <CardFooter className="flex justify-between mt-auto">
         <div className="space-x-4">
           <EditTaskButton task={task} />
           <DeleteTaskButton id={task.id} />
