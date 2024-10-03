@@ -8,8 +8,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useGoogleLogin, useRegister } from "@/hooks/useAuth";
 import { useRouter } from "next/router";
 import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import useCheckUsername from "@/hooks/useCheckUsername";
+import useCheckEmail from "@/hooks/useCheckEmail";
+import { toast } from "sonner";
+import useDebounce from "@/hooks/useDebounce";
 
 const Register = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -30,7 +34,37 @@ const Register = () => {
     resolver: zodResolver(registerSchema),
   });
 
+  // Fetch if email and username are taken
+  const [email, setEmail] = useState<string | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
+
+  const debouncedUsername = useDebounce(username, 250);
+  const debouncedEmail = useDebounce(email, 250);
+
+  const { isEmailTaken, isLoading: isCheckingEmail } =
+    useCheckEmail(debouncedEmail);
+  const { isTaken: isUsernameTaken, loading: isCheckingUsername } =
+    useCheckUsername(debouncedUsername);
+
+  // useEffect(() => {
+  //   if (isEmailTaken) {
+  //     toast.error("Email is already taken.");
+  //   }
+  // }, [isEmailTaken]);
+
+  // useEffect(() => {
+  //   if (isUsernameTaken) {
+  //     toast.error("Username is already taken.");
+  //   }
+  // }, [isUsernameTaken]);
+
   const userRegister = async (data: Registerschemtype) => {
+    // Before registering, check if email and username are available
+    if (isEmailTaken || isUsernameTaken) {
+      toast.error("Please use a different email or username.");
+      return;
+    }
+
     try {
       const user_data = register_user(data);
       console.log(user_data);
@@ -38,13 +72,16 @@ const Register = () => {
       if (isSuccess) {
         router.push("/auth/signin");
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Error during registration.");
+    }
   };
 
   const googleLoginFn = async () => {
     googleLogin();
     queryClient.removeQueries({ queryKey: ["currentUser"] });
   };
+
   return (
     <>
       <div className={`grid place-items-center h-screen`}>
@@ -104,7 +141,13 @@ const Register = () => {
                 color="primary"
                 isInvalid={errors.first_name ? true : false}
                 errorMessage={errors.first_name?.message}
+                onChange={(e) => setUsername(e.target.value)}
               />
+              {isCheckingUsername && <p>Checking username...</p>}
+              {isUsernameTaken && (
+                <p className="text-red-500">Username is taken</p>
+              )}
+
               <Input
                 {...register("email")}
                 placeholder="Enter Email"
@@ -113,7 +156,11 @@ const Register = () => {
                 color="primary"
                 isInvalid={errors.email ? true : false}
                 errorMessage={errors.email?.message}
+                onChange={(e) => setEmail(e.target.value)}
               />
+              {isCheckingEmail && <p>Checking email...</p>}
+              {isEmailTaken && <p className="text-red-500">Email is taken</p>}
+
               <Input
                 {...register("password")}
                 placeholder="Enter Password"
@@ -136,17 +183,31 @@ const Register = () => {
                   </>
                 }
               />
-              <Button
-                isLoading={isPending}
-                type="submit"
-                color="primary"
-                size="lg"
-                radius="sm"
-                className="w-fit text-background"
-                variant="flat"
-              >
-                Register
-              </Button>
+              {isEmailTaken || isUsernameTaken ? (
+                <Button
+                  isDisabled
+                  type="submit"
+                  color="primary"
+                  size="lg"
+                  radius="sm"
+                  className="w-fit text-background"
+                  variant="flat"
+                >
+                  Register
+                </Button>
+              ) : (
+                <Button
+                  isLoading={isPending}
+                  type="submit"
+                  color="primary"
+                  size="lg"
+                  radius="sm"
+                  className="w-fit text-background"
+                  variant="flat"
+                >
+                  Register
+                </Button>
+              )}
             </CardBody>
           </form>
           <CardFooter className="flex flex-col gap-4">

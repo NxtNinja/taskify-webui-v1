@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { fetcher } from "@/helper/apiHelper";
 import { User } from "@directus/types";
 
-const useCheckUsername = (username: string | null) => {
-  const [isTaken, setIsTaken] = useState<boolean | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+const useCheckEmail = (email: string | null) => {
+  const [isEmailTaken, setIsTaken] = useState<boolean | null>(null);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const checkUsername = async () => {
-      if (!username) {
+      if (!email) {
         setIsTaken(null);
         return;
       }
@@ -16,14 +16,14 @@ const useCheckUsername = (username: string | null) => {
       setLoading(true);
       try {
         const response = await fetcher<{ data: User[] }>(
-          `users?filter[first_name][_eq]=${username}`
+          `users?filter[email][_eq]=${email}`
         );
         console.log(response.data.length);
 
         if (response.data.length > 0) {
           setIsTaken(true);
           setLoading(false);
-          return { isTaken, loading };
+          return { isEmailTaken, isLoading };
         }
         setIsTaken(false);
       } catch (error) {
@@ -35,9 +35,9 @@ const useCheckUsername = (username: string | null) => {
     };
 
     checkUsername();
-  }, [username]);
+  }, [email]);
 
-  return { isTaken, loading };
+  return { isEmailTaken, isLoading };
 };
 
-export default useCheckUsername;
+export default useCheckEmail;
